@@ -15,6 +15,7 @@
 from flask import current_app
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
+from google.cloud import storage
 
 
 builtin_list = list
@@ -30,6 +31,7 @@ class Book(ndb.Model):
     description = ndb.StringProperty(indexed=False)
     publishedDate = ndb.StringProperty()
     title = ndb.StringProperty()
+    imageUrl = ndb.StringProperty()
 # [END model]
 
 
@@ -54,6 +56,7 @@ def from_datastore(entity):
     book['description'] = entity.description
     book['publishedDate'] = entity.publishedDate
     book['title'] = entity.title
+    book['imageUrl'] = entity.imageUrl
     return book
 # [END from_datastore]
 
@@ -89,6 +92,7 @@ def update(data, id=None):
     book.description = data['description']
     book.publishedDate = data['publishedDate']
     book.title = data['title']
+    book.imageUrl = data['imageUrl']
     book.put()
     return from_datastore(book)
 
